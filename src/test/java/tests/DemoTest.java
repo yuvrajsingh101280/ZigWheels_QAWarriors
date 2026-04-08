@@ -1,10 +1,10 @@
 package tests;
 
-import base.BaseTest;
+import base.DriverFactory;
 import org.testng.annotations.Test;
 import pages.MenuPage;
 
-public class DemoTest extends BaseTest {
+public class DemoTest extends DriverFactory.BaseTest {
 
 
 

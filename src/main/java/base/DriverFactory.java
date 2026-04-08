@@ -4,6 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import utilities.ConfigReader;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -51,4 +55,52 @@ public class DriverFactory {
     }
 
 
+    public static class BaseTest {
+
+
+        protected  WebDriver driver;
+        @Parameters({"browser"})
+        @BeforeMethod
+        public void setup(String browser)
+        {
+
+
+            String url  = ConfigReader.get("base.url");
+            if(browser==null||url==null)
+            {
+                throw new RuntimeException("Browser or url is undefined");
+            }
+
+            driver = createDriver(browser);
+
+            driver.get(url);
+
+
+
+            System.out.println("[INFO] Browser launched and navigates to URL");
+
+
+
+        }
+
+    @AfterMethod
+        public void tearDown(){
+
+
+            if(driver!=null)
+            {
+                driver.quit();
+                System.out.println("[INFO] Browser Closed");
+
+            }
+        }
+
+
+
+
+
+
+
+
+    }
 }
