@@ -1,8 +1,6 @@
 package base;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 import utilities.ConfigReader;
 
 public class BaseTest {
@@ -10,7 +8,7 @@ public class BaseTest {
 
     protected  WebDriver driver;
     @Parameters({"browser"})
-    @BeforeClass
+    @BeforeMethod
     public void setup(String browser)
     {
 
@@ -33,7 +31,7 @@ public class BaseTest {
 
     }
 
-@AfterClass
+@AfterMethod
     public void tearDown(){
 
 
