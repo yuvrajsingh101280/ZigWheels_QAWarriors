@@ -7,7 +7,7 @@ import pages.MenuPage;
 public class DemoTest extends BaseTest {
 
 
-    @Test
+    @Test(priority = 1)
     public void click(){
         MenuPage menu = new MenuPage(driver);
         menu.clickUpcomingBikeOption();
