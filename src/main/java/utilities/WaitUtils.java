@@ -22,7 +22,7 @@ public class WaitUtils {
 
 
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     //   wait for element to visible
@@ -36,6 +36,8 @@ public class WaitUtils {
     {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
+
+
 
 
 

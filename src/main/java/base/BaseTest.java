@@ -1,11 +1,9 @@
 package base;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class BaseTest {
 
