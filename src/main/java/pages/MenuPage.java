@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import utilities.ConfigReader;
+import utilities.ExcelUtils;
 import utilities.WaitUtils;
 import org.openqa.selenium.support.PageFactory;
 
@@ -17,6 +19,12 @@ public class MenuPage {
     WebDriver driver;
     WaitUtils wait;
     Actions action;
+    private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/BikeDetails.xlsx";
+    private static final String FILE_NAME= ConfigReader.get("BikesheetName");
+
+
+
+
     public MenuPage(WebDriver driver)
     {
         this.driver = driver;
@@ -25,6 +33,12 @@ public class MenuPage {
         PageFactory.initElements(driver,this);//this initializes all the find By elements
 
     }
+
+//    for Excel write
+
+    ExcelUtils excel  = new ExcelUtils(FILE_PATH,FILE_NAME);
+
+
 
 //    locators
 @FindBy(xpath = "//li//span[contains(text(),'NEW BIKES')]")
@@ -83,7 +97,10 @@ public WebElement newBikesLink;
     public void printBikeDetails() {
         System.out.println("Total bikes found: " + bikeNames.size());
         System.out.println("------------------------------------------");
+        //            stating from second row
+        int excelRow = 1;
 
+//        writing data into the Excel
 
         for (int i = 0; i < bikeNames.size(); i++) {
 
@@ -102,22 +119,49 @@ public WebElement newBikesLink;
 
                     // Requirement: Only print bikes under 4 Lakhs
                     if (numericPrice < 4.0) {
-                        System.out.println("Bike Name: " + name);
-                        System.out.println("Price: " + cleanPrice + " Lakh");
-                        System.out.println("Expected Launch Date: " + launchDate);
-                        System.out.println("-----------------------------");
+                            excel.setCellData(excelRow,0,name);
+                            excel.setCellData(excelRow,1,cleanPrice+" Lakh");
+                            excel.setCellData(excelRow,2,launchDate);
+                        excelRow++;
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Error parsing price for: " + name);
                 }
             } else {
                 // If no numeric price exists (e.g., "Price To Be Announced")
-                System.out.println("Bike Name: " + name);
-                System.out.println("Price Status: " + rawPrice);
-                System.out.println("Expected Launch Date: " + launchDate);
-                System.out.println("-----------------------------");
+                excel.setCellData(excelRow,0,name);
+                excel.setCellData(excelRow,1,rawPrice);
+                excel.setCellData(excelRow,2,launchDate);
+                excelRow++;
             }
         }
+
+excel.close();
+
+
+
+
+
+
+
+
+
+    // Reading from the Excel and print
+//    for reading excel
+        ExcelUtils readExcel = new ExcelUtils(FILE_PATH,FILE_NAME);
+        int rowCount = readExcel.getRowCount();
+
+
+        for (int i = 1; i <rowCount; i++) {
+            System.out.println("=================================================");
+            System.out.println("Bike Name:---- "+readExcel.getCellData(i,0));
+            System.out.println("Price:---- "+readExcel.getCellData(i,1));
+            System.out.println("Expected Launch Date:---"+readExcel.getCellData(i,2));
+            System.out.println("=================================================");
+        }
+
+readExcel.close();
+
     }
 
 

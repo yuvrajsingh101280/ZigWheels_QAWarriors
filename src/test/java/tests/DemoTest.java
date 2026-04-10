@@ -3,6 +3,7 @@ package tests;
 import base.DriverFactory;
 import org.testng.annotations.Test;
 import pages.MenuPage;
+import utilities.ScreenshotUtils;
 
 public class DemoTest extends DriverFactory.BaseTest {
 
@@ -14,6 +15,7 @@ public class DemoTest extends DriverFactory.BaseTest {
         menu.clickUpcomingBikeOption();
         menu.clickHonda();
         menu.printBikeDetails();
+//        ScreenshotUtils.takeScreenshot(driver);
 
     }
 }
