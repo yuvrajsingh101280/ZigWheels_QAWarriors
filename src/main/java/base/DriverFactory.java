@@ -30,9 +30,14 @@ public class DriverFactory {
                 ChromeOptions options = new ChromeOptions();
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("profile.default_content_setting_values.notifications", 2);// 3. Set the preference to disable notifications (1 = Allow, 2 = Block)
+
                 options.setExperimentalOption("prefs", prefs);// 4. Add the preferences to options
 
                 options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});//to hide the "Chrome is being controlled by automated test software" infobar
+
+                options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+                options.setExperimentalOption("useAutomationExtension", false);
+                options.addArguments("--disable-blink-features=AutomationControlled");
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(options);
                 break;

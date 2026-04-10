@@ -4,6 +4,7 @@ import java.util.Set;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utilities.ConfigReader;
 import utilities.WaitUtils;
 
 public class LoginPage {
@@ -51,7 +52,7 @@ public class LoginPage {
     }
     public String loginData() {
         wait.waitForVisibility(emailInput);
-        emailInput.sendKeys("abc@gmail.com");
+        emailInput.sendKeys(ConfigReader.get("email"));
         wait.waitForClickable(nextBtn);
          nextBtn.click();
        wait.waitForVisibility(error);

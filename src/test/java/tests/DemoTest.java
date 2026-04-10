@@ -25,7 +25,8 @@ public class DemoTest extends DriverFactory.BaseTest {
         login.clickLoginIcon();
         login.switchToGoogleLogin();
         String data = login.loginData();
-        System.out.printf(data);
+        System.out.println(data);
+
 
     }
 
