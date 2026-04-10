@@ -26,8 +26,6 @@ public class DriverFactory {
 
         switch (browser.toLowerCase())
         {
-
-
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
                 Map<String, Object> prefs = new HashMap<>();
