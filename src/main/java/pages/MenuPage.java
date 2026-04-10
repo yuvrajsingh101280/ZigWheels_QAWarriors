@@ -102,6 +102,11 @@ public WebElement newBikesLink;
 
                     // Requirement: Only print bikes under 4 Lakhs
                     if (numericPrice < 4.0) {
+
+
+
+
+
                         System.out.println("Bike Name: " + name);
                         System.out.println("Price: " + cleanPrice + " Lakh");
                         System.out.println("Expected Launch Date: " + launchDate);
