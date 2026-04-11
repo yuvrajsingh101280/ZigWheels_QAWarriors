@@ -9,7 +9,7 @@ public class BaseTest {
     protected  WebDriver driver;
     @Parameters({"browser"})
     @BeforeMethod
-    public void setup(String browser)
+    public void setup(@Optional("chrome") String browser)
     {
 
 
