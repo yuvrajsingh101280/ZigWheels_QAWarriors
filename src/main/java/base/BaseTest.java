@@ -8,7 +8,7 @@ public class BaseTest {
 
     protected  WebDriver driver;
     @Parameters({"browser"})
-    @BeforeMethod
+    @BeforeClass
     public void setup(@Optional("chrome") String browser)
     {
 
@@ -31,7 +31,7 @@ public class BaseTest {
 
     }
 
-    @AfterMethod
+    @AfterClass
     public void tearDown(){
 
 
