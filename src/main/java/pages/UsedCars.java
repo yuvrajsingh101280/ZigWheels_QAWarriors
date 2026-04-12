@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utilities.ConfigReader;
+import utilities.ExcelUtils;
 import utilities.WaitUtils;
 
 import java.util.List;
@@ -15,6 +17,12 @@ public class UsedCars {
     WebDriver driver;
     WaitUtils wait;
     Actions action;
+    private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/CarDetails.xlsx";
+    private static final String FILE_NAME= ConfigReader.get("carSheetName");
+
+    String city = ConfigReader.get("city");
+//    for excel write
+        ExcelUtils excel = new ExcelUtils(FILE_PATH,FILE_NAME);
 
     public UsedCars(WebDriver driver) {
         this.driver =driver;
@@ -65,11 +73,29 @@ public class UsedCars {
     public void printPopularUsedCarsModels() {
         System.out.println("Total popular used cars model found: " + popularModels.size());
         System.out.println("---------------------------------------------------------------");
+        int excelRow=1;
 
+//        writing data to Excel
         for (WebElement popularModel : popularModels) {
             String name = popularModel.getText();
-            System.out.println(name);
+
+            excel.setCellData(excelRow,0,name);
+            excelRow++;
+//            System.out.println(name);
         }
+
+
+//        reading data from Excel
+
+      ExcelUtils readExcel  = new ExcelUtils(FILE_PATH,FILE_NAME);
+        int rowCount = readExcel.getRowCount();
+        System.out.println("All popular Car Models in "+city+" :-");
+        for(int i = 1; i<rowCount;i++)
+        {
+            System.out.println(readExcel.getCellData(i,0));
+        }
+
+
     }
 
 }
