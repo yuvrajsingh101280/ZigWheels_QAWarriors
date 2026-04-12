@@ -7,7 +7,7 @@
     <test name="E2E test">
 
         
-        <parameter name="browser" value="chrome"/>
+        <parameter name="browser" value="edge"/>
         
         <classes>
             
