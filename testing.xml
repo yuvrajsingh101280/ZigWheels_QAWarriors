@@ -12,7 +12,7 @@
         <classes>
             
             <class name="tests.DemoTest"/>
-            
+           <class name="tests.UsedCarsTest"/>
         </classes>
 
 
