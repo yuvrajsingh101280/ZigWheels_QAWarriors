@@ -7,7 +7,7 @@ import pages.UsedCars;
 
 public class UsedCarsTest extends BaseTest {
 
-    @Test
+    @Test(priority = 2)
     public void usedCarsDetails() {
         UsedCars usedCars = new UsedCars(driver);
         usedCars.clickUsedCarsOption();
