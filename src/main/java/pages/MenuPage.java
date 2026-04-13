@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,7 +23,7 @@ public class MenuPage {
     private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/BikeDetails.xlsx";
     private static final String FILE_NAME= ConfigReader.get("BikesheetName");
 
-
+    String bikeName = ConfigReader.get("bikeCompany");
 
 
     public MenuPage(WebDriver driver)
@@ -48,12 +49,26 @@ public WebElement newBikesLink;
     public WebElement upcomingBikesLink;
 
 
+//
+//    @FindBy(xpath = "//a[normalize-space()='Honda']")
+//    WebElement honda;
+//
+//    @FindBy(xpath="//a[contains(@title,'Honda')]/strong")
+//    List<WebElement>bikeNames;
 
-    @FindBy(xpath = "//a[normalize-space()='Honda']")
-    WebElement honda;
+//get bike web element
+    private WebElement bikeCompanyElement(){
 
-    @FindBy(xpath="//a[contains(@title,'Honda')]/strong")
-    List<WebElement>bikeNames;
+
+        return driver.findElement(By.xpath("//a[normalize-space()='"+bikeName+"']"));
+    }
+
+//    get the bike name list
+    private List<WebElement>bikeNameList(){
+        return  driver.findElements(By.xpath("//a[contains(@title,'"+bikeName+"')]/strong"));
+
+
+    }
 
 
 
@@ -69,7 +84,6 @@ public WebElement newBikesLink;
     public void clickUpcomingBikeOption(){
 
 
-
         wait.waitForVisibility(newBikesLink);
         action.moveToElement(newBikesLink).perform();
         JavascriptExecutor js = (JavascriptExecutor)driver;
@@ -77,24 +91,27 @@ public WebElement newBikesLink;
         action.moveByOffset(0, 600).perform();
     }
 
-    public void clickHonda(){
+    public void clickBike(){
 
-
-        wait.waitForVisibility(honda);
+        WebElement bikeCompany = bikeCompanyElement();
+        wait.waitForVisibility(bikeCompany);
         JavascriptExecutor js = (JavascriptExecutor)driver;
 
 
-        js.executeScript("arguments[0].scrollIntoView(true)",honda);
+        js.executeScript("arguments[0].scrollIntoView(true)",bikeCompany);
 
-        wait.waitForClickable(honda);
+        wait.waitForClickable(bikeCompany);
 
-      js.executeScript("arguments[0].click();",honda);
+      js.executeScript("arguments[0].click();",bikeCompany);
 
 
     }
 
 
     public void printBikeDetails() {
+
+        List<WebElement>bikeNames = bikeNameList();
+
         System.out.println("Total bikes found: " + bikeNames.size());
         System.out.println("------------------------------------------");
         //            stating from second row
