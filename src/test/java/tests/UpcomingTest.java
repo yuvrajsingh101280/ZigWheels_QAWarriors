@@ -11,7 +11,7 @@ public class UpcomingTest extends BaseTest {
     public void upcomingBikes(){
         MenuPage menu = new MenuPage(driver);
         menu.clickUpcomingBikeOption();
-        menu.clickHonda();
+        menu.clickBike();
         menu.printBikeDetails();
 //        ScreenshotUtils.takeScreenshot(driver);
 
