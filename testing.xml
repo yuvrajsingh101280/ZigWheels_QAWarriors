@@ -17,8 +17,8 @@
             
 
             <class name="tests.UpcomingTest"/>
-            <class name="tests.LoginTest"/>
            <class name="tests.UsedCarsTest"/>
+            <class name="tests.LoginTest"/>
         </classes>
 
 
