@@ -4,11 +4,15 @@
 <suite name="mySuite">
 
 
+    <listeners>
+        <listener class-name="listeners.AllureListeners"/>
+    </listeners>
+
     <test name="E2E test">
 
         
         <parameter name="browser" value="chrome"/>
-        
+
         <classes>
             
 

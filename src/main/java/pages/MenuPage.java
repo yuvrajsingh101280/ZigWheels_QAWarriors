@@ -1,5 +1,7 @@
 package pages;
 
+import base.DriverFactory;
+import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,9 +27,9 @@ public class MenuPage {
 
 
 
-    public MenuPage(WebDriver driver)
+    public MenuPage()
     {
-        this.driver = driver;
+        this.driver = DriverFactory.getDriver();
         this.wait = new WaitUtils(driver);
         this.action = new Actions(driver);
         PageFactory.initElements(driver,this);//this initializes all the find By elements
@@ -66,6 +68,7 @@ public WebElement newBikesLink;
     public List<WebElement> expectedLaunchDate;
 
 
+    @Step("Navigate to Upcoming Bikes section")
     public void clickUpcomingBikeOption(){
 
 
@@ -77,6 +80,7 @@ public WebElement newBikesLink;
         action.moveByOffset(0, 600).perform();
     }
 
+    @Step("Filter upcoming bikes by Honda brand")
     public void clickHonda(){
 
 
@@ -94,6 +98,7 @@ public WebElement newBikesLink;
     }
 
 
+    @Step("Extract upcoming bike details and store them in Excel")
     public void printBikeDetails() {
         System.out.println("Total bikes found: " + bikeNames.size());
         System.out.println("------------------------------------------");

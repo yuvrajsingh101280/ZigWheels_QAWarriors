@@ -1,6 +1,9 @@
 package pages;
 
 import java.util.Set;
+
+import base.DriverFactory;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -11,8 +14,8 @@ public class LoginPage {
 
     WebDriver driver;
     WaitUtils wait;
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage() {
+        this.driver = DriverFactory.getDriver();
         this.wait = new WaitUtils(driver);
         PageFactory.initElements(driver,this);
     }
@@ -32,6 +35,7 @@ public class LoginPage {
     @FindBy(xpath = "//div[@id='i8']/div")
     WebElement error;
 
+    @Step("Click login icon and select Google login option")
     public void clickLoginIcon() {
     wait.waitForVisibility(loginIcon);
     loginIcon.click();
@@ -40,6 +44,8 @@ public class LoginPage {
     GoogleBtn.click();
     }
 
+
+    @Step("Switch control to Google login window")
     public void switchToGoogleLogin() {
         String mainWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
@@ -50,6 +56,9 @@ public class LoginPage {
             }
         }
     }
+
+
+    @Step("Enter email and submit login form")
     public String loginData() {
         wait.waitForVisibility(emailInput);
         emailInput.sendKeys(ConfigReader.get("email"));
@@ -59,6 +68,16 @@ public class LoginPage {
        String errorMsg = error.getText();
 
       return errorMsg;
+    }
+
+    @Step("Check if login error message is displayed")
+    public boolean isErrorDisplayed() {
+        try {
+            wait.waitForVisibility(error);
+            return error.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
 }

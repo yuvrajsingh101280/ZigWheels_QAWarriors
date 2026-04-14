@@ -1,20 +1,40 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.*;
+import listeners.AllureListeners;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
+
+@Epic("Authentication")
+@Feature("Login Feature")
+@Listeners({AllureListeners.class})
 public class LoginTest extends BaseTest {
 
 
 
     @Test(priority = 3)
+
+    @Story("Login using Google account")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify user can login using Google authentication")
     public void loginTest(){
-        LoginPage login = new LoginPage(driver);
+        LoginPage login = new LoginPage();
         login.clickLoginIcon();
         login.switchToGoogleLogin();
         String data = login.loginData();
         System.out.println(data);
+
+        boolean isErrorDisplayed = login.isErrorDisplayed();
+        System.out.println(" ------------- " + isErrorDisplayed);
+//        Assert.assertTrue(isErrorDisplayed,);
+
+        if (isErrorDisplayed) {
+            Assert.fail("Failing test intentionally to trigger onTestFailure screenshot");
+        }
 
 
     }
