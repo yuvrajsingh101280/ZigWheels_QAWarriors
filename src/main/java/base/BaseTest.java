@@ -1,12 +1,12 @@
 package base;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utilities.ConfigReader;
 
 public class BaseTest {
 
 
+    protected  WebDriver driver;
     @Parameters({"browser"})
     @BeforeMethod
     public void setup(@Optional("chrome") String browser)
@@ -19,9 +19,9 @@ public class BaseTest {
             throw new RuntimeException("Browser or url is undefined");
         }
 
-        DriverFactory.createDriver(browser);
+        driver = DriverFactory.createDriver(browser);
 
-        DriverFactory.getDriver().get(url);
+        driver.get(url);
 
 
 
@@ -32,10 +32,14 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown(ITestResult iTestResult){
-        if(DriverFactory.getDriver() != null) {
+    public void tearDown(){
+
+
+        if(driver!=null)
+        {
+            driver.quit();
             System.out.println("[INFO] Browser Closed");
-            DriverFactory.quitDriver();
+
         }
     }
 
