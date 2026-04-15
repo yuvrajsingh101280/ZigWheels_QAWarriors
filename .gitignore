@@ -15,7 +15,7 @@ allure-results/
 *.iws
 *.iml
 *.ipr
-
+.ai/
 
 ### Eclipse ###
 .apt_generated
