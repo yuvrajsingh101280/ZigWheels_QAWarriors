@@ -90,9 +90,11 @@ public WebElement newBikesLink;
 
         wait.waitForVisibility(newBikesLink);
         action.moveToElement(newBikesLink).perform();
-        JavascriptExecutor js = (JavascriptExecutor)driver;
-        js.executeScript("arguments[0].click();",upcomingBikesLink);
-        action.moveByOffset(0, 600).perform();
+//        JavascriptExecutor js = (JavascriptExecutor)driver;
+//        js.executeScript("arguments[0].click();",upcomingBikesLink);
+//        action.moveByOffset(0, 600).perform();
+        wait.waitForVisibility(upcomingBikesLink);
+        upcomingBikesLink.click();
     }
 
     @Step("Filter upcoming bikes by Honda brand")
