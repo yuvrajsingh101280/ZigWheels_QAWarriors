@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -20,12 +21,12 @@ public class DriverFactory {
     {
 
         WebDriver driver;
-
+        Map<String, Object> prefs = new HashMap<>();
         switch (browser.toLowerCase())
         {
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
-                Map<String, Object> prefs = new HashMap<>();
+
                 prefs.put("profile.default_content_setting_values.notifications", 2);// 3. Set the preference to disable notifications (1 = Allow, 2 = Block)
 
                 options.setExperimentalOption("prefs", prefs);// 4. Add the preferences to options
@@ -40,8 +41,17 @@ public class DriverFactory {
                 break;
 
             case "edge":
+                EdgeOptions edgeOptions = new EdgeOptions();
+
+                edgeOptions.setExperimentalOption("prefs", prefs);
+                edgeOptions.setExperimentalOption(
+                        "excludeSwitches",
+                        new String[]{"enable-automation"}
+                );
+                edgeOptions.setExperimentalOption("useAutomationExtension", false);
+                edgeOptions.addArguments("--disable-blink-features=AutomationControlled");
                 WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+                driver = new EdgeDriver(edgeOptions);
                 break;
 
             default:
