@@ -133,9 +133,10 @@ public WebElement newBikesLink;
                 String cleanPrice = m.group();
                 try {
                     double numericPrice = Double.parseDouble(cleanPrice);
+                    double maxBikePrice = Double.parseDouble(ConfigReader.get("maxBikePrice"));
 
                     // Requirement: Only print bikes under 4 Lakhs
-                    if (numericPrice < 4.0) {
+                    if (numericPrice < maxBikePrice) {
                             excel.setCellData(excelRow,0,name);
                             excel.setCellData(excelRow,1,cleanPrice+" Lakh");
                             excel.setCellData(excelRow,2,launchDate);
