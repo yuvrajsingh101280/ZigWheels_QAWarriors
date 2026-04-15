@@ -1,5 +1,7 @@
 package pages;
 
+import base.DriverFactory;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -24,8 +26,8 @@ public class UsedCars {
 //    for excel write
         ExcelUtils excel = new ExcelUtils(FILE_PATH,FILE_NAME);
 
-    public UsedCars(WebDriver driver) {
-        this.driver =driver;
+    public UsedCars() {
+        this.driver = DriverFactory.getDriver();
         this.wait = new WaitUtils(driver);
         this.action = new Actions(driver);
         PageFactory.initElements(driver,this);
@@ -49,6 +51,7 @@ public class UsedCars {
 //    Actions
 
 //    clicking on Used Cars link
+    @Step("Open Used Cars section from More menu")
     public void clickUsedCarsOption() {
         wait.waitForVisibility(moreMenu);
         action.moveToElement(moreMenu).perform();
@@ -57,6 +60,7 @@ public class UsedCars {
     }
 
 //    selecting city from dropdown
+    @Step("Select city as {cityName}")
     public void selectCity(String cityName) {
         cityInputBox.sendKeys(cityName);
         wait.waitForElementsVisibility(citySuggestionList);
@@ -70,6 +74,7 @@ public class UsedCars {
     }
 
 
+    @Step("Capture popular used car models and save to Excel")
     public void printPopularUsedCarsModels() {
         System.out.println("Total popular used cars model found: " + popularModels.size());
         System.out.println("---------------------------------------------------------------");

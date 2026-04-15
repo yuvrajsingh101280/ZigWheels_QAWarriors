@@ -21,7 +21,7 @@ public class BaseTest {
 
         driver = DriverFactory.createDriver(browser);
 
-        driver.get(url);
+        DriverFactory.getDriver().get(url);
 
 
 
@@ -35,12 +35,8 @@ public class BaseTest {
     public void tearDown(){
 
 
-        if(driver!=null)
-        {
-            driver.quit();
-            System.out.println("[INFO] Browser Closed");
-
-        }
+        DriverFactory.quitDriver();
+        System.out.println("[INFO] Browser Closed");
     }
 
 

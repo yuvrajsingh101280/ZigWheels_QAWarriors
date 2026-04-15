@@ -1,15 +1,10 @@
 package base;
-//import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
-import utilities.ConfigReader;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -19,6 +14,7 @@ public class DriverFactory {
 
 
 //    creating driver
+    private static ThreadLocal<WebDriver> tdriver = new ThreadLocal<>();
 
 
     public static WebDriver createDriver(String browser)
@@ -45,7 +41,6 @@ public class DriverFactory {
                 break;
 
             case "edge":
-
                 EdgeOptions edgeOptions = new EdgeOptions();
 
                 edgeOptions.setExperimentalOption("prefs", prefs);
@@ -55,7 +50,6 @@ public class DriverFactory {
                 );
                 edgeOptions.setExperimentalOption("useAutomationExtension", false);
                 edgeOptions.addArguments("--disable-blink-features=AutomationControlled");
-
                 WebDriverManager.edgedriver().setup();
                 driver = new EdgeDriver(edgeOptions);
                 break;
@@ -66,57 +60,21 @@ public class DriverFactory {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
+        tdriver.set(driver);
         return driver;
 
     }
 
-
-    public static class BaseTest {
-
-
-        protected  WebDriver driver;
-        @Parameters({"browser"})
-        @BeforeMethod
-        public void setup(String browser)
-        {
-
-
-            String url  = ConfigReader.get("base.url");
-            if(browser==null||url==null)
-            {
-                throw new RuntimeException("Browser or url is undefined");
-            }
-
-            driver = createDriver(browser);
-
-            driver.get(url);
-
-
-
-            System.out.println("[INFO] Browser launched and navigates to URL");
-
-
-
-        }
-
-    @AfterMethod
-        public void tearDown(){
-
-
-            if(driver!=null)
-            {
-                driver.quit();
-                System.out.println("[INFO] Browser Closed");
-
-            }
-        }
-
-
-
-
-
-
-
-
+    public static WebDriver getDriver() {
+        return tdriver.get();
     }
+
+
+    public static void quitDriver() {
+        if (tdriver.get() != null) {
+            tdriver.get().quit();
+            tdriver.remove();
+        }
+    }
+
 }

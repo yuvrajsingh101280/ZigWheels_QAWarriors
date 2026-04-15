@@ -4,18 +4,21 @@
 <suite name="mySuite">
 
 
+    <listeners>
+        <listener class-name="listeners.AllureListeners"/>
+    </listeners>
+
     <test name="E2E test">
 
         
         <parameter name="browser" value="edge"/>
-        
+
         <classes>
             
 
             <class name="tests.UpcomingTest"/>
-            <class name="tests.UsedCarsTest"/>
+           <class name="tests.UsedCarsTest"/>
             <class name="tests.LoginTest"/>
-
         </classes>
 
 

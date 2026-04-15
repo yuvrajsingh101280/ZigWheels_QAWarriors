@@ -1,5 +1,7 @@
 package pages;
 
+import base.DriverFactory;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -22,13 +24,13 @@ public class MenuPage {
     Actions action;
     private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/BikeDetails.xlsx";
     private static final String FILE_NAME= ConfigReader.get("BikesheetName");
-
     String bikeName = ConfigReader.get("bikeCompany");
 
 
-    public MenuPage(WebDriver driver)
+
+    public MenuPage()
     {
-        this.driver = driver;
+        this.driver = DriverFactory.getDriver();
         this.wait = new WaitUtils(driver);
         this.action = new Actions(driver);
         PageFactory.initElements(driver,this);//this initializes all the find By elements
@@ -49,21 +51,21 @@ public WebElement newBikesLink;
     public WebElement upcomingBikesLink;
 
 
-//
+
 //    @FindBy(xpath = "//a[normalize-space()='Honda']")
 //    WebElement honda;
 //
 //    @FindBy(xpath="//a[contains(@title,'Honda')]/strong")
 //    List<WebElement>bikeNames;
 
-//get bike web element
+    //get bike web element
     private WebElement bikeCompanyElement(){
 
 
         return driver.findElement(By.xpath("//a[normalize-space()='"+bikeName+"']"));
     }
 
-//    get the bike name list
+    //    get the bike name list
     private List<WebElement>bikeNameList(){
         return  driver.findElements(By.xpath("//a[contains(@title,'"+bikeName+"')]/strong"));
 
@@ -81,7 +83,9 @@ public WebElement newBikesLink;
     public List<WebElement> expectedLaunchDate;
 
 
+    @Step("Navigate to Upcoming Bikes section")
     public void clickUpcomingBikeOption(){
+
 
 
         wait.waitForVisibility(newBikesLink);
@@ -91,6 +95,7 @@ public WebElement newBikesLink;
         action.moveByOffset(0, 600).perform();
     }
 
+    @Step("Filter upcoming bikes by Honda brand")
     public void clickBike(){
 
         WebElement bikeCompany = bikeCompanyElement();
@@ -108,9 +113,11 @@ public WebElement newBikesLink;
     }
 
 
+    @Step("Extract upcoming bike details and store them in Excel")
     public void printBikeDetails() {
 
         List<WebElement>bikeNames = bikeNameList();
+
 
         System.out.println("Total bikes found: " + bikeNames.size());
         System.out.println("------------------------------------------");

@@ -11,6 +11,7 @@ config.properties
 #.idea/libraries/
 
 .idea/
+allure-results/
 *.iws
 *.iml
 *.ipr
