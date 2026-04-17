@@ -57,6 +57,66 @@ public class ExcelUtils {
 
     }
 
+
+
+//this constructor is using to create dynamic sheets
+    public ExcelUtils(String filePath) {
+        this.filePath = filePath;
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            workbook = new XSSFWorkbook(fis);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading Excel file: " + e.getMessage());
+        }
+    }
+
+
+
+    //    dynamically create sheet name for used car
+    public void switchOrCreateSheetForCar(String sheetName)
+    {
+        Sheet newSheet = workbook.getSheet(sheetName);
+        if(newSheet==null)
+        {
+            newSheet= workbook.createSheet(sheetName);
+        }
+
+//        create header row
+
+        Row headerRow = newSheet.createRow(0);
+        Cell cell = headerRow.createCell(0);
+        cell.setCellValue("Popular Model");
+
+        this.sheet = newSheet;
+    }
+
+
+
+
+//        dynamically create sheet name for upcoming bikes
+    public void switchOrCreateSheetForUpcomingBikes(String sheetName)
+    {
+        Sheet newSheet = workbook.getSheet(sheetName);
+        if(newSheet==null)
+        {
+            newSheet = workbook.createSheet(sheetName);
+        }
+
+//        create header row
+        Row headerRow  = newSheet.createRow(0);
+
+        headerRow.createCell(0).setCellValue("Bike Name");
+        headerRow.createCell(1).setCellValue("Price");
+        headerRow.createCell(2).setCellValue("Expected Launch Date");
+    this.sheet = newSheet;
+
+
+    }
+
+
+
+
+
+
 //    read row data and return Map<columns, value>
     public Map<String,String> getTestData(int rowIndex){
 
@@ -169,21 +229,7 @@ return data;
     }
 
 
-//    get Row index
 
-    public int getRowIndex(String testCaseName)
-    {
-
-        for(int i = 1; i<getRowCount(); i++)
-        {
-            if(getCellData(i,0).equalsIgnoreCase(testCaseName))
-            {
-                return  i;
-            }
-        }
-return -1;
-
-    }
 
 
 //    close workbook

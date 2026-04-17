@@ -13,6 +13,7 @@ import utilities.ConfigReader;
 import utilities.ExcelUtils;
 import utilities.WaitUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsedCars {
@@ -20,11 +21,14 @@ public class UsedCars {
     WaitUtils wait;
     Actions action;
     private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/CarDetails.xlsx";
-    private static final String FILE_NAME= ConfigReader.get("carSheetName");
+//    private static final String FILE_NAME= ConfigReader.get("carSheetName");
+
+
+
 
     String city = ConfigReader.get("city");
 //    for excel write
-        ExcelUtils excel = new ExcelUtils(FILE_PATH,FILE_NAME);
+        ExcelUtils excel;
 
     public UsedCars() {
         this.driver = DriverFactory.getDriver();
@@ -73,9 +77,13 @@ public class UsedCars {
         }
     }
 
-
+//for test ng
     @Step("Capture popular used car models and save to Excel")
-    public void printPopularUsedCarsModels() {
+    public void printPopularUsedCarsModels(String cityName) {
+        excel = new ExcelUtils(FILE_PATH);
+        excel.switchOrCreateSheetForCar(cityName);
+
+
         System.out.println("Total popular used cars model found: " + popularModels.size());
         System.out.println("---------------------------------------------------------------");
         int excelRow=1;
@@ -92,9 +100,9 @@ public class UsedCars {
 
 //        reading data from Excel
 
-      ExcelUtils readExcel  = new ExcelUtils(FILE_PATH,FILE_NAME);
+      ExcelUtils readExcel  = new ExcelUtils(FILE_PATH,cityName);
         int rowCount = readExcel.getRowCount();
-        System.out.println("All popular Car Models in "+city+" :-");
+        System.out.println("All popular Car Models in "+cityName+" :-");
         for(int i = 1; i<rowCount;i++)
         {
             System.out.println(readExcel.getCellData(i,0));
@@ -103,4 +111,21 @@ public class UsedCars {
 
     }
 
+
+
+//    for cucumber
+    @Step("Get popular used car models list")
+    public List<String> getPopularModels(){
+
+        wait.waitForVisibility(popularModels.get(0));
+
+        List<String>carList= new ArrayList<>();
+        for(WebElement model:popularModels)
+        {
+            String name = model.getText();
+            carList.add(name);
+        }
+        return  carList;
+
+    }
 }

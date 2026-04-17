@@ -4,6 +4,7 @@ import base.BaseTest;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import pages.MenuPage;
+import utilities.ConfigReader;
 
 @Epic("Vehicle Information")
 @Feature("Upcoming Bikes")
@@ -19,7 +20,8 @@ public class UpcomingTest extends BaseTest {
         MenuPage menu = new MenuPage();
         menu.clickUpcomingBikeOption();
         menu.clickBike();
-        menu.printBikeDetails();
+        String companyName = ConfigReader.get("bikeCompany");
+        menu.printBikeDetails(companyName);
 //        ScreenshotUtils.takeScreenshot(driver);
 
     }

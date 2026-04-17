@@ -23,9 +23,11 @@ public class MenuPage {
     WaitUtils wait;
     Actions action;
     private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/BikeDetails.xlsx";
-    private static final String FILE_NAME= ConfigReader.get("BikesheetName");
-    String bikeName = ConfigReader.get("bikeCompany");
+//    private static final String FILE_NAME= ConfigReader.get("BikesheetName");
+    private String bikeName = ConfigReader.get("bikeCompany");
+//    for Excel write
 
+    ExcelUtils excel;
 
 
     public MenuPage()
@@ -37,9 +39,15 @@ public class MenuPage {
 
     }
 
-//    for Excel write
 
-    ExcelUtils excel  = new ExcelUtils(FILE_PATH,FILE_NAME);
+//    setter method for cucumber
+    public void setBikeCompanyForScenario(String company)
+    {
+        this.bikeName = company;
+    }
+
+
+
 
 
 
@@ -116,7 +124,10 @@ public WebElement newBikesLink;
 
 
     @Step("Extract upcoming bike details and store them in Excel")
-    public void printBikeDetails() {
+    public void printBikeDetails(String companyName) {
+        excel = new ExcelUtils(FILE_PATH);
+        excel.switchOrCreateSheetForUpcomingBikes(companyName);
+
 
         List<WebElement>bikeNames = bikeNameList();
 
@@ -175,7 +186,7 @@ excel.close();
 
     // Reading from the Excel and print
 //    for reading excel
-        ExcelUtils readExcel = new ExcelUtils(FILE_PATH,FILE_NAME);
+        ExcelUtils readExcel = new ExcelUtils(FILE_PATH,companyName);
         int rowCount = readExcel.getRowCount();
 
 

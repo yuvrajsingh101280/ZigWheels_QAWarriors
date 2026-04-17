@@ -21,4 +21,15 @@ public class ScreenshotUtils {
         File trg = new File(".\\test-output\\screenshots\\"+fileName);
         src.renameTo(trg);
     }
+
+
+
+//  For cucumber and allure
+    public static byte[] getScreenShotBytes(WebDriver driver)
+    {
+
+        return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+
+    }
+
 }
