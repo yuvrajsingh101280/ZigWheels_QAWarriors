@@ -2,6 +2,7 @@ package base;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utilities.AllureReportOpener;
 import utilities.ConfigReader;
 
 public class BaseTest {
@@ -39,6 +40,16 @@ public class BaseTest {
         }
     }
 
+
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite() {
+        AllureReportOpener.cleanAllureResults();
+    }
+
+    @AfterSuite(alwaysRun = true)
+    public void afterSuite() {
+        AllureReportOpener.openAllureReport();
+    }
 
 
 
