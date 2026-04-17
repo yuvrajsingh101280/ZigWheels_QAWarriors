@@ -59,9 +59,9 @@ public class LoginPage {
 
 
     @Step("Enter email and submit login form")
-    public String loginData() {
+    public String loginData(String email) {
         wait.waitForVisibility(emailInput);
-        emailInput.sendKeys(ConfigReader.get("email"));
+        emailInput.sendKeys(email);
         wait.waitForClickable(nextBtn);
          nextBtn.click();
        wait.waitForVisibility(error);
@@ -69,6 +69,20 @@ public class LoginPage {
 
       return errorMsg;
     }
+//for cucumber
+    @Step("Enter email{0} and submit the login form")
+    public String loginDataWithFeatureFile(String email)
+    {
+        wait.waitForVisibility(emailInput);
+        emailInput.sendKeys(email);
+        wait.waitForClickable(nextBtn);
+        nextBtn.click();
+        wait.waitForVisibility(error);
+        String errorMsg = error.getText();
+        return errorMsg;
+    }
+
+
 
     @Step("Check if login error message is displayed")
     public boolean isErrorDisplayed() {

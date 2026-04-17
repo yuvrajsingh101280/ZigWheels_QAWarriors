@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
+import utilities.ConfigReader;
 
 
 @Epic("Authentication")
@@ -25,7 +26,8 @@ public class LoginTest extends BaseTest {
         LoginPage login = new LoginPage();
         login.clickLoginIcon();
         login.switchToGoogleLogin();
-        String data = login.loginData();
+        String email   = ConfigReader.get("email");
+        String data = login.loginData(email);
         System.out.println(data);
 
         boolean isErrorDisplayed = login.isErrorDisplayed();

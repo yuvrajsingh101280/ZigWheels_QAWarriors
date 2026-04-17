@@ -21,6 +21,6 @@ public class UsedCarsTest extends BaseTest {
         usedCars.clickUsedCarsOption();
         String city = ConfigReader.get("city");
         usedCars.selectCity(city);
-        usedCars.printPopularUsedCarsModels();
+        usedCars.printPopularUsedCarsModels(city);
     }
 }
