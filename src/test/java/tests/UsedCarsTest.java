@@ -3,6 +3,7 @@ package tests;
 import base.BaseTest;
 import base.DriverFactory;
 import io.qameta.allure.*;
+import listeners.RetryAnalyzer;
 import org.testng.annotations.Test;
 import pages.UsedCars;
 import utilities.ConfigReader;
@@ -12,7 +13,7 @@ import utilities.ConfigReader;
 @Feature("Used Cars")
 public class UsedCarsTest extends BaseTest {
 
-    @Test(priority = 2)
+    @Test
     @Story("View popular used cars by city")
     @Severity(SeverityLevel.MINOR)
     @Description("Verify popular used car models for selected city")

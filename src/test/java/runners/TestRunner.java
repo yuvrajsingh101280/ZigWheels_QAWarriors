@@ -3,19 +3,19 @@ package runners;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import listeners.RetryAnalyzer;
+import org.testng.annotations.*;
 import utilities.AllureReportOpener;
 
 @CucumberOptions(
 
         features = "src/test/resources/features",
         glue = {"stepdefinitions","hooks"},
-        tags = "@smoke",
+        tags = "@login",
         plugin = {"pretty",
                 "html:target/cucumber-report.html",
-                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+                "rerun:target/rerun.txt"
         },
         monochrome = true
 
@@ -36,10 +36,22 @@ public class TestRunner extends AbstractTestNGCucumberTests {
                 AllureReportOpener.cleanAllureResults();
         }
 
+
+
+
+
+
+
         @AfterSuite
         public void afterSuite() {
                 System.out.println("--- All Tests Finished. Launching Allure Report ---");
                 AllureReportOpener.openAllureReport();
         }
+
+
+
+
+
+
 
 }

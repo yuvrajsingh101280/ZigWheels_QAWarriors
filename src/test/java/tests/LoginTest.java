@@ -3,6 +3,7 @@ package tests;
 import base.BaseTest;
 import io.qameta.allure.*;
 import listeners.AllureListeners;
+import listeners.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -17,7 +18,7 @@ public class LoginTest extends BaseTest {
 
 
 
-    @Test(priority = 3)
+    @Test
 
     @Story("Login using Google account")
     @Severity(SeverityLevel.CRITICAL)

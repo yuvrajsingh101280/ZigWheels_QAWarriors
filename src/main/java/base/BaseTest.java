@@ -9,7 +9,7 @@ public class BaseTest {
 
     protected  WebDriver driver;
     @Parameters({"browser"})
-    @BeforeClass
+    @BeforeMethod(alwaysRun = true)
     public void setup(@Optional("chrome") String browser)
     {
 
@@ -32,7 +32,7 @@ public class BaseTest {
 
     }
 
-    @AfterClass
+    @AfterMethod(alwaysRun = true)
     public void tearDown(){
 
 
@@ -46,7 +46,7 @@ public class BaseTest {
         AllureReportOpener.cleanAllureResults();
     }
 
-    @AfterSuite(alwaysRun = true)
+    @AfterSuite()
     public void afterSuite() {
         AllureReportOpener.openAllureReport();
     }

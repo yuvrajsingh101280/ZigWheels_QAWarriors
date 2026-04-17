@@ -5,6 +5,8 @@
 
 
     <listeners>
+        
+        <listener class-name="listeners.RetryTransformer"/>
         <listener class-name="listeners.AllureListeners"/>
     </listeners>
 
