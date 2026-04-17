@@ -3,7 +3,10 @@ package runners;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
+import utilities.AllureReportOpener;
 
 @CucumberOptions(
 
@@ -27,5 +30,16 @@ import org.testng.annotations.Parameters;
 public class TestRunner extends AbstractTestNGCucumberTests {
 
 
+        @BeforeSuite
+        public void beforeSuite() {
+                System.out.println("--- Starting Test Suite: Allure Results Cleaned ---");
+                AllureReportOpener.cleanAllureResults();
+        }
+
+        @AfterSuite
+        public void afterSuite() {
+                System.out.println("--- All Tests Finished. Launching Allure Report ---");
+                AllureReportOpener.openAllureReport();
+        }
 
 }
