@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import io.qameta.allure.*;
+import listeners.RetryAnalyzer;
 import org.testng.annotations.Test;
 import pages.MenuPage;
 import utilities.ConfigReader;
@@ -12,7 +13,7 @@ import utilities.ConfigReader;
 public class UpcomingTest extends BaseTest {
 
 
-    @Test(priority = 1)
+    @Test
     @Story("View upcoming Honda bikes")
     @Severity(SeverityLevel.NORMAL)
     @Description("Verify upcoming Honda bike details are displayed")
