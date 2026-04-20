@@ -28,7 +28,6 @@ public class UsedCarSteps {
 
         logger.info("Selecting city for used cars: {}", city);
 
-        selectedCity = city;
         usedCars.selectCity(city);
     }
 

@@ -6,6 +6,7 @@ import listeners.RetryAnalyzer;
 import org.testng.annotations.Test;
 import pages.MenuPage;
 import utilities.ConfigReader;
+import utilities.ScreenshotUtils;
 
 @Epic("Vehicle Information")
 @Feature("Upcoming Bikes")
@@ -23,7 +24,7 @@ public class UpcomingTest extends BaseTest {
         menu.clickBike();
         String companyName = ConfigReader.get("bikeCompany");
         menu.printBikeDetails(companyName);
-//        ScreenshotUtils.takeScreenshot(driver);
+        ScreenshotUtils.takeScreenshot(driver);
 
     }
 }

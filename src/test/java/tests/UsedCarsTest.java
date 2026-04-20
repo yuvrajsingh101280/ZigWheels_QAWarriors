@@ -7,6 +7,7 @@ import listeners.RetryAnalyzer;
 import org.testng.annotations.Test;
 import pages.UsedCars;
 import utilities.ConfigReader;
+import utilities.ScreenshotUtils;
 
 
 @Epic("Vehicle Marketplace")
@@ -23,5 +24,6 @@ public class UsedCarsTest extends BaseTest {
         String city = ConfigReader.get("city");
         usedCars.selectCity(city);
         usedCars.printPopularUsedCarsModels(city);
+
     }
 }
