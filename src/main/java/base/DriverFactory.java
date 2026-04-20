@@ -1,5 +1,7 @@
 package base;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,15 +18,21 @@ public class DriverFactory {
 //    creating driver
     private static ThreadLocal<WebDriver> tdriver = new ThreadLocal<>();
 
+    private static final Logger logger =
+            LogManager.getLogger(DriverFactory.class);
+
 
     public static WebDriver createDriver(String browser)
     {
+
+        logger.info("Creating WebDriver for browser: {}", browser);
 
         WebDriver driver;
         Map<String, Object> prefs = new HashMap<>();
         switch (browser.toLowerCase())
         {
             case "chrome":
+                logger.info("Setting Chrome options");
                 ChromeOptions options = new ChromeOptions();
 
                 prefs.put("profile.default_content_setting_values.notifications", 2);// 3. Set the preference to disable notifications (1 = Allow, 2 = Block)
@@ -41,6 +49,7 @@ public class DriverFactory {
                 break;
 
             case "edge":
+                logger.info("Setting Edge options");
                 EdgeOptions edgeOptions = new EdgeOptions();
 
                 edgeOptions.setExperimentalOption("prefs", prefs);
@@ -55,12 +64,14 @@ public class DriverFactory {
                 break;
 
             default:
+                logger.error("Unsupported browser received: {}", browser);
                 throw new RuntimeException("Unsupported browser :--- "+browser);
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         tdriver.set(driver);
+        logger.info("WebDriver stored in ThreadLocal");
         return driver;
 
     }
@@ -72,6 +83,7 @@ public class DriverFactory {
 
     public static void quitDriver() {
         if (tdriver.get() != null) {
+            logger.info("Quitting WebDriver");
             tdriver.get().quit();
             tdriver.remove();
         }

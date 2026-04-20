@@ -1,6 +1,8 @@
 package listeners;
 
 import io.qameta.allure.Allure;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
@@ -8,6 +10,9 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     private int count = 0;
     private static final int maxTry = 1; // 1 retry → total 2 runs
+
+    private static final Logger logger =
+            LogManager.getLogger(RetryAnalyzer.class);
 
     @Override
     public boolean retry(ITestResult result) {
@@ -20,6 +25,15 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
             // Show retry reason in Allure timeline/steps
             if (result.getThrowable() != null) {
+
+
+                logger.error(
+                        "Retry triggered due to exception: {} - {}",
+                        result.getThrowable().getClass().getSimpleName(),
+                        result.getThrowable().getMessage()
+                );
+
+
                 Allure.step(
                         "Retry triggered due to failure: "
                                 + result.getThrowable().getClass().getSimpleName()
@@ -27,17 +41,25 @@ public class RetryAnalyzer implements IRetryAnalyzer {
                                 + result.getThrowable().getMessage()
                 );
             } else {
+
+                logger.error("Retry triggered due to test failure without exception");
+
                 Allure.step("Retry triggered due to test failure");
             }
 
-            System.out.println(
-                    "Retrying test: "
-                            + result.getMethod().getMethodName()
-                            + " | Retry #" + count
-            );
+
+
+
+            logger.info("Retrying test: {} | Retry # {}",result.getMethod().getMethodName(),count);
 
             return true;
         }
+
+        logger.info(
+                "No retry required / max retry reached for test: {}",
+                result.getMethod().getMethodName()
+        );
+
         return false;
     }
 

@@ -4,6 +4,8 @@ import java.util.Set;
 
 import base.DriverFactory;
 import io.qameta.allure.Step;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -11,13 +13,19 @@ import utilities.ConfigReader;
 import utilities.WaitUtils;
 
 public class LoginPage {
-
+    private static final Logger logger = LogManager.getLogger(LoginPage.class);
     WebDriver driver;
     WaitUtils wait;
     public LoginPage() {
+
+
+
         this.driver = DriverFactory.getDriver();
         this.wait = new WaitUtils(driver);
         PageFactory.initElements(driver,this);
+
+        logger.debug("LoginPage initialized");
+
     }
 
     @FindBy(xpath = "//div[@id='forum_non_login_lg']/div[1]")
@@ -37,16 +45,25 @@ public class LoginPage {
 
     @Step("Click login icon and select Google login option")
     public void clickLoginIcon() {
-    wait.waitForVisibility(loginIcon);
+
+        logger.info("Starting login via Google option");
+
+        wait.waitForVisibility(loginIcon);
     loginIcon.click();
 
     wait.waitForVisibility(GoogleBtn);
     GoogleBtn.click();
+
+        logger.info("Google login option selected");
+
     }
 
 
     @Step("Switch control to Google login window")
     public void switchToGoogleLogin() {
+
+        logger.info("Switching control to Google login window");
+
         String mainWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
 
@@ -55,11 +72,17 @@ public class LoginPage {
                 driver.switchTo().window(win);
             }
         }
+
+        logger.info("Control switched to Google login window");
+
     }
 
 
     @Step("Enter email and submit login form")
     public String loginData(String email) {
+
+        logger.info("Attempting login with email: {}", email);
+
         wait.waitForVisibility(emailInput);
         emailInput.sendKeys(email);
         wait.waitForClickable(nextBtn);
@@ -67,18 +90,26 @@ public class LoginPage {
        wait.waitForVisibility(error);
        String errorMsg = error.getText();
 
+        logger.warn("Login failed with error message: {}", errorMsg);
+
       return errorMsg;
     }
 //for cucumber
     @Step("Enter email{0} and submit the login form")
     public String loginDataWithFeatureFile(String email)
     {
+
+        logger.info("Attempting login using feature file email: {}", email);
+
         wait.waitForVisibility(emailInput);
         emailInput.sendKeys(email);
         wait.waitForClickable(nextBtn);
         nextBtn.click();
         wait.waitForVisibility(error);
         String errorMsg = error.getText();
+
+        logger.warn("Login failed with error message: {}", errorMsg);
+
         return errorMsg;
     }
 
