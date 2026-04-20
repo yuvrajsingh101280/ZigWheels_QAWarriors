@@ -10,7 +10,7 @@ import utilities.AllureReportOpener;
 
         features = "src/test/resources/features",
         glue = {"stepdefinitions","hooks"},
-        tags = "@login",
+        tags = "@smoke",
         plugin = {"pretty",
                 "html:target/cucumber-report.html",
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",

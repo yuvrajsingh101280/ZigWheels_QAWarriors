@@ -2,6 +2,8 @@ package pages;
 
 import base.DriverFactory;
 import io.qameta.allure.Step;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +24,7 @@ public class MenuPage {
     WebDriver driver;
     WaitUtils wait;
     Actions action;
+    private static final Logger logger= LogManager.getLogger(MenuPage.class);
     private static final String FILE_PATH= System.getProperty("user.dir")+"/TestData/BikeDetails.xlsx";
 //    private static final String FILE_NAME= ConfigReader.get("BikesheetName");
     private String bikeName = ConfigReader.get("bikeCompany");
@@ -36,6 +39,7 @@ public class MenuPage {
         this.wait = new WaitUtils(driver);
         this.action = new Actions(driver);
         PageFactory.initElements(driver,this);//this initializes all the find By elements
+        logger.debug("MenuPage initialized");
 
     }
 
@@ -43,6 +47,10 @@ public class MenuPage {
 //    setter method for cucumber
     public void setBikeCompanyForScenario(String company)
     {
+
+
+        logger.info("Bike company set for scenario: {}", company);
+
         this.bikeName = company;
     }
 
@@ -95,6 +103,8 @@ public WebElement newBikesLink;
     public void clickUpcomingBikeOption(){
 
 
+        logger.info("Navigating to Upcoming Bikes section");
+
 
         wait.waitForVisibility(newBikesLink);
         action.moveToElement(newBikesLink).perform();
@@ -103,10 +113,16 @@ public WebElement newBikesLink;
 //        action.moveByOffset(0, 600).perform();
         wait.waitForVisibility(upcomingBikesLink);
         upcomingBikesLink.click();
+
+        logger.info("User is on Upcoming Bikes page");
+
     }
 
     @Step("Filter upcoming bikes by Honda brand")
     public void clickBike(){
+
+        logger.info("Filtering upcoming bikes for brand: {}", bikeName);
+
 
         WebElement bikeCompany = bikeCompanyElement();
         wait.waitForVisibility(bikeCompany);
@@ -119,12 +135,17 @@ public WebElement newBikesLink;
 
       js.executeScript("arguments[0].click();",bikeCompany);
 
+        logger.info("Bike brand filter applied successfully");
+
 
     }
 
 
     @Step("Extract upcoming bike details and store them in Excel")
     public void printBikeDetails(String companyName) {
+
+        logger.info("Extracting bike details for company: {}", companyName);
+
         excel = new ExcelUtils(FILE_PATH);
         excel.switchOrCreateSheetForUpcomingBikes(companyName);
 
@@ -132,8 +153,9 @@ public WebElement newBikesLink;
         List<WebElement>bikeNames = bikeNameList();
 
 
-        System.out.println("Total bikes found: " + bikeNames.size());
-        System.out.println("------------------------------------------");
+
+        logger.info("Total bikes found: {}", bikeNames.size());
+
         //            stating from second row
         int excelRow = 1;
 
@@ -163,7 +185,8 @@ public WebElement newBikesLink;
                         excelRow++;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Error parsing price for: " + name);
+
+                    logger.warn("Failed to parse price for bike: {}", name);
                 }
             } else {
                 // If no numeric price exists (e.g., "Price To Be Announced")
@@ -179,6 +202,8 @@ excel.close();
 
 
 
+        logger.info("Bike details written to Excel successfully");
+
 
 
 
@@ -188,6 +213,8 @@ excel.close();
 //    for reading excel
         ExcelUtils readExcel = new ExcelUtils(FILE_PATH,companyName);
         int rowCount = readExcel.getRowCount();
+
+        logger.info("Reading back {} rows from Excel", rowCount - 1);
 
 
         for (int i = 1; i <rowCount; i++) {
