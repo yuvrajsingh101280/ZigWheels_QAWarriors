@@ -5,11 +5,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+import utilities.ConfigReader;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
     private int count = 0;
-    private static final int maxTry = 1; // 1 retry → total 2 runs
+
+    private static final int maxTry = Integer.parseInt(ConfigReader.get("maxTry")); // 1 retry → total 2 runs
 
     private static final Logger logger =
             LogManager.getLogger(RetryAnalyzer.class);
