@@ -3,6 +3,7 @@ package hooks;
 import base.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,6 +82,6 @@ public class Hooks {
 
         logger.info("========== Scenario Finished ==========");
 
-
     }
+
 }
