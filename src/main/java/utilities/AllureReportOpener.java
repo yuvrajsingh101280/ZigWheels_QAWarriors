@@ -43,36 +43,27 @@ public class AllureReportOpener {
 
     }
 
+//open the terminal and open the allure report
+public static void openAllureReport() {
+    try {
+        String resultsDir = "allure-results";
 
-    public static void openAllureReport() {
-        try {
-            String resultsDir = "allure-results";
+        logger.info("Opening Allure report from directory: {}", resultsDir);
 
-            logger.info("Opening Allure report from directory: {}", resultsDir);
+        ProcessBuilder pb = new ProcessBuilder(
+                "cmd.exe", "/c", "start", "cmd.exe", "/k",
+                "allure serve " + resultsDir
+        );
 
-            // Or "target/allure-results" if you've configured it that way
+// DO NOT use inheritIO()
+        pb.start();
 
-//            System.out.println(">>> Opening Allure Report from: " + resultsDir);
+        logger.info("Allure report started in a separate terminal");
 
-            // Step 1: Using 'serve' is better than 'generate' + 'open' for local runs
-            // It starts a local jetty server automatically.
-            ProcessBuilder pb = new ProcessBuilder(
-                    "cmd.exe", "/c", "allure serve " + resultsDir
-            );
-
-            pb.inheritIO();
-            pb.start();
-
-            logger.info("Allure report server started successfully");
-
-            // IMPORTANT: We do NOT use .waitFor() here.
-            // If you do, your IDE will stay 'Running' forever because
-            // the Allure server is waiting for you to look at the report.
-
-        } catch (IOException e) {
-
-            logger.error("Failed to open Allure report. Ensure Allure CLI is installed and added to PATH.", e);
-            e.printStackTrace();
-        }
+    } catch (IOException e) {
+        logger.error("Failed to open Allure report", e);
+        e.printStackTrace();
     }
+}
+
 }

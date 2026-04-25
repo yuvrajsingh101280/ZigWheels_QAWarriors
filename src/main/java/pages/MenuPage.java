@@ -60,8 +60,8 @@ public class MenuPage {
 
 
 //    locators
-@FindBy(xpath = "//li//span[contains(text(),'NEW BIKES')]")
-public WebElement newBikesLink;
+    @FindBy(xpath = "//li//span[contains(text(),'NEW BIKES')]")
+    public WebElement newBikesLink;
 
     @FindBy(xpath = "//li//span[contains(text(),'NEW BIKES')]/following-sibling::ul//a[contains(text(),'Upcoming Bikes')]")
     public WebElement upcomingBikesLink;

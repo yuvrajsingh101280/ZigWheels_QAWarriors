@@ -16,8 +16,8 @@ public class DriverFactory {
 
 
 //    creating driver
-    private static ThreadLocal<WebDriver> tdriver = new ThreadLocal<>();
 
+private static WebDriver driver;
     private static final Logger logger =
             LogManager.getLogger(DriverFactory.class);
 
@@ -27,7 +27,6 @@ public class DriverFactory {
 
         logger.info("Creating WebDriver for browser: {}", browser);
 
-        WebDriver driver;
         Map<String, Object> prefs = new HashMap<>();
         switch (browser.toLowerCase())
         {
@@ -44,6 +43,7 @@ public class DriverFactory {
                 options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
                 options.setExperimentalOption("useAutomationExtension", false);
                 options.addArguments("--disable-blink-features=AutomationControlled");
+
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(options);
                 break;
@@ -67,25 +67,28 @@ public class DriverFactory {
                 logger.error("Unsupported browser received: {}", browser);
                 throw new RuntimeException("Unsupported browser :--- "+browser);
         }
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        tdriver.set(driver);
-        logger.info("WebDriver stored in ThreadLocal");
+
+        logger.info("WebDriver instance created");
         return driver;
 
     }
 
     public static WebDriver getDriver() {
-        return tdriver.get();
+//        return tdriver.get();
+        return driver;
     }
 
 
     public static void quitDriver() {
-        if (tdriver.get() != null) {
+
+
+        if (driver!= null) {
             logger.info("Quitting WebDriver");
-            tdriver.get().quit();
-            tdriver.remove();
+            driver.quit();
+            driver=null;
         }
     }
 
